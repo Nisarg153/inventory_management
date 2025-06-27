@@ -4,12 +4,11 @@
 ## Inventory
 1. Save Product
    Lambda Code:
+   
     import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
     import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-    
     const client = new DynamoDBClient({ region: "us-east-1" });
     const dynamoDB = DynamoDBDocumentClient.from(client);
-    
     export const handler = async (event) => {
       try {
         const { productId, quantity } = JSON.parse(event.body);
@@ -21,9 +20,7 @@
             quantity: quantity
           }
         });
-    
         await dynamoDB.send(params);
-    
         return {
           statusCode: 200,
           body: JSON.stringify({ message: "Product data saved successfully!" })
@@ -35,5 +32,6 @@
         };
       }
     };
+
     
 3. Get Products
