@@ -37,33 +37,33 @@ here are the lambda function for Inventory.
     
 2. Get Products
 <pre>
-   import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { ScanCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-
-const client = new DynamoDBClient({ region: "us-east-1" });
-const dynamoDB = DynamoDBDocumentClient.from(client);
-
-export const handler = async (event) => {
-    try {
-        const params = new ScanCommand({
-            TableName: "Inventory"  // Fetch all products
-        });
-
-        const result = await dynamoDB.send(params);
-        console.log("DynamoDB Scan Result:", result.Items);  // Debugging in CloudWatch
-
-        return {
-            statusCode: 200,
-            body: JSON.stringify(result.Items || [])  // Return array
-        };
-    } catch (error) {
-        console.error("Error fetching products:", error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: "Failed to retrieve products", details: error.message })
-        };
-    }
-};
+    import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+    import { ScanCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+    
+    const client = new DynamoDBClient({ region: "us-east-1" });
+    const dynamoDB = DynamoDBDocumentClient.from(client);
+    
+    export const handler = async (event) => {
+        try {
+            const params = new ScanCommand({
+                TableName: "Inventory"  // Fetch all products
+            });
+    
+            const result = await dynamoDB.send(params);
+            console.log("DynamoDB Scan Result:", result.Items);  // Debugging in CloudWatch
+    
+            return {
+                statusCode: 200,
+                body: JSON.stringify(result.Items || [])  // Return array
+            };
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            return {
+                statusCode: 500,
+                body: JSON.stringify({ error: "Failed to retrieve products", details: error.message })
+            };
+        }
+    };
 
 </pre>
 
@@ -160,3 +160,35 @@ Here are the lambda functions for order processing.
 
 </pre>
 2. Get Orders
+<pre>
+    import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+    import { ScanCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+    
+    const client = new DynamoDBClient({ region: "us-east-1" });
+    const dynamoDB = DynamoDBDocumentClient.from(client);
+    
+    export const handler = async (event) => {
+      try {
+        console.log("Scanning Orders table..."); // ✅ Log before scanning
+    
+        const params = new ScanCommand({
+          TableName: "Orders"
+        });
+    
+        const result = await dynamoDB.send(params);
+        console.log("DynamoDB scan result:", JSON.stringify(result, null, 2)); // ✅ Log full result
+    
+        return {
+          statusCode: 200,
+          body: JSON.stringify(result.Items || [])
+        };
+      } catch (error) {
+        console.error("Error fetching Orders:", error); // ✅ Log full error
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: "Failed to retrieve Orders", details: error.message })
+        };
+      }
+    };
+
+</pre>
