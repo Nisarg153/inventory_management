@@ -5,7 +5,6 @@
 1. Save Product
    Lambda Code:
 <pre>
-   ```
     import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
     import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
     const client = new DynamoDBClient({ region: "us-east-1" });
@@ -33,8 +32,6 @@
         };
       }
     };
-   
-   ```
 </pre>   
    
     
